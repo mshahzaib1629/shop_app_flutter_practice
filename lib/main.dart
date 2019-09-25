@@ -17,6 +17,10 @@ class MyHomePage extends StatelessWidget{
         fontFamily: 'Lato'
       ),
       home: ProductOverviewScreen(),
+
+      routes: {
+        ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
+      },
     );
   }
 }  
