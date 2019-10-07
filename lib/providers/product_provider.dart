@@ -39,13 +39,17 @@ class ProductProvider with ChangeNotifier {
   ];
 
   List<Product> get items {
-    // using spread operator to return a copy of the items' list, bcz all the objects in dart are of reference type, 
+    // using spread operator to return a copy of the items' list, bcz all the objects in dart are of reference type,
     // If I return the _items list directly, then I would return a pointer at this object in memory
     return [..._items];
   }
 
-  void addProduct(){
+  void addProduct() {
     // _items.add('value');
     notifyListeners();
+  }
+
+  Product findById(String productId) {
+    return _items.firstWhere((prod) => prod.id == productId);
   }
 }
