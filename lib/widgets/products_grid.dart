@@ -12,12 +12,17 @@ class ProductsGrid extends StatelessWidget {
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
       itemCount: productsList.length,
-      // Using ChangeNotifierProvider in products_grid.dart file also to use Product (model) as Provider here, we are 
-      // taking products as separate single products so that they can be dealt as single instance in this changeNotifierListener
-      itemBuilder: (context, index) => ChangeNotifierProvider(
+      
+      // We shoud use ".value" approach if we are using provider on something that's part of a list or a grid 
+      // because widgets are recycled by flutter, but the data that is attached to the widget changes. 
+      // When using changeNotifierProvider.value, we actually make sures that provider works even if data changes 
+      // for the widget.
+      // If we use builder function here, it'll not work correctly bcz now the provider is tied to its data and 
+      // is attached/detached to/from the widget instead of changing data being attached to the same provider.
+      itemBuilder: (context, index) => ChangeNotifierProvider.value(
         
         // using the current product to make its ChangeNotifier:
-        builder: (context) => productsList[index],
+        value: productsList[index],
         child: ProductItem(
         // productsList[index].id,
         // productsList[index].title,

@@ -9,10 +9,10 @@ void main() => runApp(MyHomePage());
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Wraping the whole app in ChangeNotifierProvider; it allows us to register a class which we can listen in child
-    // widgets whenever this class updates
-    return ChangeNotifierProvider(
-      builder: (context) => ProductProvider(),
+    
+    // if context is not required, we may use ".value" approach instead of "builder method"
+    return ChangeNotifierProvider.value(
+      value: ProductProvider(),
       child: MaterialApp(
         title: "MyShop - Title",
         theme: ThemeData(
