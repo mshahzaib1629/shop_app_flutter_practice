@@ -12,17 +12,20 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    // Using Provider in product_item.dart to access the single product's data instead 
-    // of passing all that stuff from parent class as arguments
-    final product = Provider.of<Product>(context);
     
+  // we are setting listen: false in the provider because we are not interested in listening state updates 
+  // and rebuild the whole widget. We only want to listen it on FavoriteIcon, so we are using Consumer there 
+  // to listen the state at that particular piece of the widget
+  // In this way we can enhance the app performance by avoiding unnecessary rebuilds
+    final product = Provider.of<Product>(context, listen: false);
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
         child: GestureDetector(
           onTap: () {
-            Navigator.of(context).pushNamed(ProductDetailScreen.routeName, arguments: product.id);
+            Navigator.of(context).pushNamed(ProductDetailScreen.routeName,
+                arguments: product.id);
           },
           child: Image.network(
             product.imageUrl,
@@ -31,12 +34,22 @@ class ProductItem extends StatelessWidget {
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black54,
-          leading: IconButton(
-            icon: Icon(product.isFavorite ? Icons.favorite : Icons.favorite_border),
-            color: Theme.of(context).accentColor,
-            onPressed: () {
-              product.toggleFavoriteStatus();
-            },
+
+          // using Consumer here because only here we are interested in listening the 
+          // state updates in current widget
+          leading: Consumer<Product>(
+            builder: (context, product, child) => IconButton(
+              // here the child argument in builder represents the widget under Consumer 
+              // body which we don't want to rebuild (it'll be helpful in complex widget tree)
+              icon: Icon(
+                  product.isFavorite ? Icons.favorite : Icons.favorite_border),
+              color: Theme.of(context).accentColor,
+              onPressed: () {
+                product.toggleFavoriteStatus();
+              },
+            ),
+            // for example:
+            child: Text('This Text will not Rebuild'),
           ),
           title: Text(
             product.title,
