@@ -38,10 +38,24 @@ class ProductProvider with ChangeNotifier {
     ),
   ];
 
+  var _showFavoriteOnly = false;
+
   List<Product> get items {
-    // using spread operator to return a copy of the items' list, bcz all the objects in dart are of reference type,
-    // If I return the _items list directly, then I would return a pointer at this object in memory
+    if(_showFavoriteOnly) {
+      return _items.where((prodItem) => prodItem.isFavorite).toList();
+    }
+    else // otherwise return all items
     return [..._items];
+  }
+
+  void showFavoriteOnly(){
+    _showFavoriteOnly = true;
+    notifyListeners();
+  }
+
+  void showAll(){
+    _showFavoriteOnly = false;
+    notifyListeners();
   }
 
   void addProduct() {

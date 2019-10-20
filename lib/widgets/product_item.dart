@@ -39,8 +39,6 @@ class ProductItem extends StatelessWidget {
           // state updates in current widget
           leading: Consumer<Product>(
             builder: (context, product, child) => IconButton(
-              // here the child argument in builder represents the widget under Consumer 
-              // body which we don't want to rebuild (it'll be helpful in complex widget tree)
               icon: Icon(
                   product.isFavorite ? Icons.favorite : Icons.favorite_border),
               color: Theme.of(context).accentColor,
@@ -48,7 +46,6 @@ class ProductItem extends StatelessWidget {
                 product.toggleFavoriteStatus();
               },
             ),
-            // for example:
             child: Text('This Text will not Rebuild'),
           ),
           title: Text(
