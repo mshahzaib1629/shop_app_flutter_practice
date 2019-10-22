@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/product_provider.dart';
+import 'package:shop_app/widgets/badge.dart';
 import '../widgets/products_grid.dart';
 
 import '../providers/product.dart';
@@ -29,6 +31,19 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
       appBar: AppBar(
         title: Text("My Shop"),
         actions: <Widget>[
+          Consumer<CartProvider>(
+            // here we passed the IconButon to child of the Consumer because we don't want it to rebuild it.
+            // And we passed its reference to the Badge (widget) via using ch. ch is automatically considered as 
+            // the child widget of the Comsumer
+            builder: (context, cart, ch) => Badge(
+            child: ch,
+            value: cart.itemCount.toString(),
+          ),
+          child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {},
+            ),
+            ),
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
               setState(() {

@@ -14,10 +14,16 @@ class CartItem {
 }
 
 class CartProvider with ChangeNotifier {
-  Map<String, CartItem> _items;
+  // initializing the cart items' list with {} because if we do not 
+  // initialize it, we get an error of "The getter 'length' was called on null" while rendering itemcount
+  Map<String, CartItem> _items = {};
 
   Map<String, CartItem> get items {
     return {..._items};
+  }
+
+  int get itemCount {
+    return _items == null ? 0 : _items.length;
   }
 
   void addItems(String productId, String title, double price) {
@@ -43,6 +49,7 @@ class CartProvider with ChangeNotifier {
                 price: price,
                 quantity: 1,
               ));
+      notifyListeners();
     }
   }
 }
