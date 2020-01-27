@@ -9,6 +9,7 @@ import 'package:shop_app/widgets/badge.dart';
 import '../widgets/products_grid.dart';
 
 import '../providers/product.dart';
+import '../widgets/app_drawer.dart';
 
 // defineing enum values for displaying items
 enum FilterOptions {
@@ -34,19 +35,19 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         actions: <Widget>[
           Consumer<CartProvider>(
             // here we passed the IconButon to child of the Consumer because we don't want it to rebuild it.
-            // And we passed its reference to the Badge (widget) via using ch. ch is automatically considered as 
+            // And we passed its reference to the Badge (widget) via using ch. ch is automatically considered as
             // the child widget of the Comsumer
             builder: (context, cart, ch) => Badge(
-            child: ch,
-            value: cart.itemCount.toString(),
-          ),
-          child: IconButton(
+              child: ch,
+              value: cart.itemCount.toString(),
+            ),
+            child: IconButton(
               icon: Icon(Icons.shopping_cart),
               onPressed: () {
                 Navigator.of(context).pushNamed(CartScreen.routeName);
               },
             ),
-            ),
+          ),
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
               setState(() {
@@ -72,6 +73,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           ),
         ],
       ),
+      drawer: AppDrawer(),
       body: ProductsGrid(_showOnlyFavorites),
     );
   }
